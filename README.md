@@ -1,3 +1,9 @@
+Perfect 👍 I’ll integrate the **`start.bat` section** neatly into your full README so you have a ready-to-use version.
+
+Here’s your updated **complete README.md**:
+
+---
+
 # Electronic Vehicle Health Check (eVHC) – AI-Powered Video Assessment
 
 ## 📌 Project Overview
@@ -59,17 +65,22 @@ With this solution, video assessments are automated using **Generative AI**, mak
 
 ```
 EVHC_gemini_local/
-│── controllers/
-│    ├── analyzing_video.py        # Analyze videos using Vertex AI LLM
-│    ├── data_from_bigquery.py     # Fetch data from BigQuery
-│    ├── delete_file.py            # Delete files from GCP bucket or BigQuery
-│    ├── get_files_from_bucket.py  # Fetch data from Cloud Storage
-│    ├── get_video_file_data.py    # Fetch video details from BigQuery
-│
-│── dist/                          # Frontend UI
-│── main.py                        # Main entry point
-│── requirements.txt               # Python dependencies
-│── Dockerfile                     # Container setup
+│── .dockerignore                 # Docker build exclusions
+│── .env.production               # Environment variables (production)
+│── Dockerfile                    # Container setup
+│── cloudbuild.yaml               # Google Cloud Build configuration  (⚠️ modify with your GCP project ID & settings)
+│── deploy-artifact.bat           # Batch script for deployment (⚠️ update project ID and artifact details)
+│── start.bat                     # Batch script to start backend + frontend
+│── backend/                      # Backend source code
+│    ├── controllers/
+│    │   ├── analyzing_video.py        # Analyze videos using Vertex AI LLM
+│    │   ├── data_from_bigquery.py     # Fetch data from BigQuery
+│    │   ├── delete_file.py            # Delete files from GCP bucket or BigQuery
+│    │   ├── get_files_from_bucket.py  # Fetch data from Cloud Storage
+│    │   ├── get_video_file_data.py    # Fetch video details from BigQuery
+│    ├── main.py                        # Main entry point
+│    └── requirements.txt               # Python dependencies
+│── frontend/                     # Frontend source code
 ```
 
 ---
@@ -81,7 +92,8 @@ EVHC_gemini_local/
 1. **Python 3.10+**
 2. **Google Cloud SDK** (for authentication)
 3. **Docker** (if running containerized version)
-4. Clone the repository:
+4. **Node.js & npm** (for frontend, if applicable)
+5. Clone the repository:
 
    ```bash
    git clone https://github.com/vignesh-ds/Datahack2025.git
@@ -106,24 +118,71 @@ This allows access to:
 
 ---
 
-### ▶️ Running with Python (Non-Docker Setup)
+## 🏃 Running the Application
 
-1. Install dependencies:
+You can run the system in different ways depending on your workflow:
+
+---
+
+### ▶️ 1. Running with Python (Backend Only, Non-Docker)
+
+1. Install backend dependencies (from inside the `backend` folder):
 
    ```bash
    pip install -r requirements.txt
    ```
-2. Run the main script:
+2. Run the backend API:
 
    ```bash
-   python main.py
+   python backend/main.py
    ```
+
+Backend will be available at [http://localhost:8000](http://localhost:8000).
 
 ---
 
-### 🐳 Running with Docker
+### ▶️ 2. Running the Frontend (Only UI)
 
-1. Build the Docker image:
+1. Navigate to the `frontend` directory:
+
+   ```bash
+   cd frontend
+   ```
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+3. Start the frontend application:
+
+   ```bash
+   npm start
+   ```
+
+Frontend will be available at [http://localhost:5173](http://localhost:5173) (default for Vite).
+
+---
+
+### ▶️ 3. Running with `start.bat` (Backend + Frontend Together)
+
+If you want to start both **backend** and **frontend** at once, use the provided batch script:
+
+```bat
+start.bat
+```
+
+The script will:
+
+* Start the **backend (FastAPI)** on [http://localhost:8000](http://localhost:8000)
+* Start the **frontend (React/Vite)** on [http://localhost:5173](http://localhost:5173)
+
+This is the easiest way to run both services for local development.
+
+---
+
+### ▶️ 4. Running with Docker
+
+1. Build the Docker image from the project root:
 
    ```bash
    docker build -t evhc_gemini_local .
@@ -136,19 +195,12 @@ This allows access to:
 
 ---
 
-## 🏃 Running the Application
-
-1. **Provide Input** → Supply video URLs for processing
-2. **Execution** → System automatically downloads, analyzes, classifies, and extracts data
-3. **Output** → Review structured insights, scores, and summaries
-
----
-
 ## 🔗 Tech Stack
 
 * **Google Vertex AI (gemini-2.5-pro)** → Generative AI model for analysis
 * **Google BigQuery** → Data storage & querying
 * **Google Cloud Storage** → Video storage
 * **Python 3.10+** → Core development
+* **FastAPI** → Backend API layer
+* **Node.js/React (Vite)** → Frontend
 * **Docker** → Containerization
-* **FastAPI (optional for API layer)**
