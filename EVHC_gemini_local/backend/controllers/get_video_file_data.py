@@ -6,11 +6,14 @@ from fastapi import HTTPException
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+project_id = os.environ.get("PROJECT_ID")
+bucket_id = os.environ.get("BUCKET_ID")
+table_id = os.environ.get("BIGQUERY_TABLE_ID")
+bucket_folder = os.environ.get("BUCKET_FOLDER")
+
 bigquery_client = bigquery.Client()
 
-table_id = os.environ["BIGQUERY_TABLE_ID"]
-bucket_folder = os.environ["BUCKET_FOLDER"]
-project_id = os.environ["PROJECT_ID"]
+
 
 def get_video_file_data(filename):
 

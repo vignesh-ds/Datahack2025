@@ -1,0 +1,5 @@
+.env
+venv
+serverKey.json
+.idea
+__pycache__

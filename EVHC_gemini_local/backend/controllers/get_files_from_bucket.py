@@ -2,10 +2,13 @@ from google.cloud import storage
 import os
 from fastapi import HTTPException
 # Initialize the GCS client
+project_id = os.environ.get("PROJECT_ID")
+bucket_id = os.environ.get("BUCKET_ID")
+table_id = os.environ.get("BIGQUERY_TABLE_ID")
+bucket_folder = os.environ.get("BUCKET_FOLDER")
+
 storage_client = storage.Client()
 
-bucket_id = os.environ["BUCKET_ID"]
-bucket_folder = os.environ["BUCKET_FOLDER"]
 
 
 def get_all_files():

@@ -1,5 +1,0 @@
-vertexai
-uvicorn
-fastapi
-python-multipart
-python-dotenv

@@ -5,12 +5,14 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+project_id = os.environ.get("PROJECT_ID")
+bucket_id = os.environ.get("BUCKET_ID")
+table_id = os.environ.get("BIGQUERY_TABLE_ID")
+bucket_folder = os.environ.get("BUCKET_FOLDER")
+
 storage_client = storage.Client()
 bigquery_client = bigquery.Client()
 
-bucket_id = os.environ["BUCKET_ID"]
-table_id = os.environ["BIGQUERY_TABLE_ID"]
-bucket_folder = os.environ["BUCKET_FOLDER"]
 
 
 async def delete_from_gcs(filename: str):

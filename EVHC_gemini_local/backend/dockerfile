@@ -1,5 +1,15 @@
 #It instructs Docker Engine to use official python:3.10 as the base image
-FROM python:3.10
+FROM --platform=linux/amd64 python:3.11.8-slim-bullseye
+
+ENV HTTP_PROXY="http://internet.ford.com:83" \
+    HTTPS_PROXY="http://internet.ford.com:83" \
+    http_proxy="http://internet.ford.com:83" \
+    https_proxy="http://internet.ford.com:83" \
+    no_proxy="127.0.0.1,0.0.0.0,::1,localhost,.ford.com,.local,.testing,.internal,.googleapis.com,.google.internal,19.0.0.0/8,136.1.0.0/16,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+
+    # Add Google Cloud environment variables
+ENV GOOGLE_CLOUD_PROJECT=ai-cop-demo
+ENV PROJECT_ID=ai-cop-demo
 
 #It creates a working directory(app) for the Docker image and container
 WORKDIR /app
@@ -16,7 +26,8 @@ RUN pip install -r requirements.txt
 COPY . .
 
 #It will expose the FastAPI application on port `8000` inside the container
-EXPOSE 8000
+EXPOSE 8003
 
 #It is the command that will start and run the FastAPI application container
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0"]
+#CMD ["uvicorn", "main:app", "--host", "0.0.0.0"]
+CMD uvicorn main:app --host 0.0.0.0 --port $PORT

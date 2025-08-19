@@ -1,0 +1,48 @@
+# cloudbuild.yaml
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build', 
+      '-f', 'Dockerfile.prod',
+      '-t', 'gcr.io/$PROJECT_ID/ai-video-analyzer:$COMMIT_SHA',
+      '-t', 'gcr.io/$PROJECT_ID/ai-video-analyzer:latest',
+      '.'
+    ]
+
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/ai-video-analyzer:$COMMIT_SHA']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/ai-video-analyzer:latest']
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: [
+      'run', 'deploy', 'ai-video-analyzer',
+      '--image', 'gcr.io/$PROJECT_ID/ai-video-analyzer:$COMMIT_SHA',
+      '--region', 'us-central1',
+      '--platform', 'managed',
+      '--allow-unauthenticated',
+      '--memory', '2Gi',
+      '--cpu', '2',
+      '--timeout', '900s',
+      '--concurrency', '10',
+      '--max-instances', '10',
+      '--min-instances', '0'
+    ]
+
+# Store images in Google Container Registry
+images:
+  - 'gcr.io/$PROJECT_ID/ai-video-analyzer:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/ai-video-analyzer:latest'
+
+# Build timeout
+timeout: 1200s
+
+# Machine type for build
+options:
+  machineType: 'E2_HIGHCPU_8'
+  diskSizeGb: 100

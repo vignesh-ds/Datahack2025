@@ -1,5 +1,9 @@
+node_modules/
+__pycache__/
+*.pyc
+.git/
 .env
-venv
-serverKey.json
-.idea
-__pycache__
+.vscode/
+dist/
+build/
+*.log

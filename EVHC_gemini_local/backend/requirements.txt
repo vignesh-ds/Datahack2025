@@ -1,0 +1,19 @@
+google-cloud-aiplatform
+uvicorn
+fastapi
+python-multipart
+python-dotenv
+google-cloud-storage
+google-cloud-bigquery
+selenium 
+webdriver-manager 
+requests
+# Existing dependencies...
+vertexai
+pytubefix
+
+# Production additions
+gunicorn==21.2.0
+prometheus-client==0.19.0
+structlog==23.2.0
+httpx==0.25.2
