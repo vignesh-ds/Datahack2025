@@ -65,6 +65,7 @@ EVHC_gemini_local/
 │── cloudbuild.yaml               # Google Cloud Build configuration  (⚠️ modify with your GCP project ID & settings)
 │── deploy-artifact.bat           # Batch script for deployment (⚠️ update project ID and artifact details)
 │── start.bat                     # Batch script to start backend + frontend
+│── prompt_categorization_by_techniques.md     # Techniques for Prompt Categorization
 │── backend/                      # Backend source code
 │    ├── controllers/
 │    │   ├── analyzing_video.py        # Analyze videos using Vertex AI LLM
