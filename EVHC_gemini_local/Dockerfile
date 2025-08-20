@@ -1,12 +1,7 @@
 # Simple Dockerfile - no frontend building inside Docker
 FROM python:3.11-slim
 
-# Ford proxy settings
-ENV HTTP_PROXY="http://internet.ford.com:83" \
-    HTTPS_PROXY="http://internet.ford.com:83" \
-    http_proxy="http://internet.ford.com:83" \
-    https_proxy="http://internet.ford.com:83" \
-    no_proxy="127.0.0.1,0.0.0.0,::1,localhost,.ford.com,.local,.testing,.internal,.googleapis.com,.google.internal,19.0.0.0/8,136.1.0.0/16,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+# proxy settings
 
 # Install minimal dependencies
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
