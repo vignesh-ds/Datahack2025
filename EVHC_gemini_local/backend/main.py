@@ -24,30 +24,6 @@ from pytubefix.cli import on_progress
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Configure Ford proxy settings
-def setup_ford_proxy():
-    """Setup Ford corporate proxy settings - ONLY for development"""
-    if os.getenv("ENVIRONMENT") == "production":
-        logger.info("Production environment - skipping proxy configuration")
-        return {}
-    
-    proxy_settings = {
-        'http_proxy': "http://internet.ford.com:83",
-        'https_proxy': "http://internet.ford.com:83",
-        'HTTP_PROXY': "http://internet.ford.com:83",
-        'HTTPS_PROXY': "http://internet.ford.com:83",
-        'NO_PROXY': ".ford.com,localhost,127.0.0.1,19.*",
-        'no_proxy': ".ford.com,localhost,127.0.0.1,19.*"
-    }
-    
-    for key, value in proxy_settings.items():
-        os.environ[key] = value
-        
-    logger.info("")
-    return proxy_settings
-
-# Setup proxy at startup
-PROXY_SETTINGS = setup_ford_proxy()
 
 load_dotenv()
 
@@ -70,7 +46,7 @@ class CustomUploadFile(StarletteUploadFile):
 # Initialize FastAPI app
 app = FastAPI(
     title="AI EVHC Video Analyzer",
-    description="Ford Service Video Analysis Platform",
+    description=" Service Video Analysis Platform",
     version="1.0.0"
 )
 
@@ -93,13 +69,13 @@ class FilenameRequest(BaseModel):
     filename: str
 
 def get_proxy_session():
-    """Create a requests session with Ford proxy configuration"""
+    """Create a requests session with  proxy configuration"""
     session = requests.Session()
     
     # Configure proxy for the session
     proxies = {
-        'http': 'http://internet.ford.com:83',
-        'https': 'http://internet.ford.com:83'
+        'http': 'http://internet..com:83',
+        'https': 'http://internet..com:83'
     }
     
     session.proxies.update(proxies)
@@ -172,7 +148,7 @@ async def analyze_video(
 # Test endpoint to verify proxy connectivity
 @app.get("/api/test-proxy")
 async def test_proxy():
-    """Test Ford proxy connectivity"""
+    """Test  proxy connectivity"""
     try:
         session = get_proxy_session()
         
@@ -203,7 +179,7 @@ async def test_proxy():
         
         return {
             "proxy_configured": True,
-            "proxy_server": "http://internet.ford.com:83",
+            "proxy_server": "http://internet..com:83",
             "test_results": results
         }
         
