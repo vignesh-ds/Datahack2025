@@ -1,9 +1,3 @@
-Perfect 👍 I’ll integrate the **`start.bat` section** neatly into your full README so you have a ready-to-use version.
-
-Here’s your updated **complete README.md**:
-
----
-
 # Electronic Vehicle Health Check (eVHC) – AI-Powered Video Assessment
 
 ## 📌 Project Overview
