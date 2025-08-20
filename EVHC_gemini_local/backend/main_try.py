@@ -24,26 +24,6 @@ from pytubefix.cli import on_progress
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Configure Ford proxy settings
-def setup_ford_proxy():
-    """Setup Ford corporate proxy settings"""
-    proxy_settings = {
-        'http_proxy': "http://internet.ford.com:83",
-        'https_proxy': "http://internet.ford.com:83",
-        'HTTP_PROXY': "http://internet.ford.com:83",
-        'HTTPS_PROXY': "http://internet.ford.com:83",
-        'NO_PROXY': ".ford.com,localhost,127.0.0.1,19.*",
-        'no_proxy': ".ford.com,localhost,127.0.0.1,19.*"
-    }
-    
-    for key, value in proxy_settings.items():
-        os.environ[key] = value
-        
-    logger.info("Ford proxy settings configured")
-    return proxy_settings
-
-# Setup proxy at startup
-PROXY_SETTINGS = setup_ford_proxy()
 
 load_dotenv()
 
@@ -89,13 +69,13 @@ class FilenameRequest(BaseModel):
     filename: str
 
 def get_proxy_session():
-    """Create a requests session with Ford proxy configuration"""
+    """Create a requests session with  proxy configuration"""
     session = requests.Session()
     
     # Configure proxy for the session
     proxies = {
-        'http': 'http://internet.ford.com:83',
-        'https': 'http://internet.ford.com:83'
+        'http': 'http://internet..com:83',
+        'https': 'http://internet..com:83'
     }
     
     session.proxies.update(proxies)
@@ -119,7 +99,7 @@ def get_proxy_session():
     return session
 
 def citnow_fetch_video_as_file(url):
-    """Fetch video from CitNow embedded URL with Ford proxy support"""
+    """Fetch video from CitNow embedded URL with  proxy support"""
     options = Options()
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
@@ -128,8 +108,8 @@ def citnow_fetch_video_as_file(url):
     options.add_argument("--window-size=1920,1080")
     
     # Add proxy settings for Chrome
-    options.add_argument("--proxy-server=http://internet.ford.com:83")
-    options.add_argument("--proxy-bypass-list=.ford.com,localhost,127.0.0.1")
+    options.add_argument("--proxy-server=http://internet..com:83")
+    options.add_argument("--proxy-bypass-list=..com,localhost,127.0.0.1")
     
     # Use your ChromeDriver path
     chrome_driver_path = r"C:\Users\BKANNA10\Downloads\chromedriver-win64_138\chromedriver-win64\chromedriver.exe"
@@ -143,7 +123,7 @@ def citnow_fetch_video_as_file(url):
 
     try:
         logger.info(f"Starting CitNow processing for URL: {url}")
-        logger.info("Using Ford proxy: http://internet.ford.com:83")
+        logger.info("Using  proxy: http://internet..com:83")
         
         driver = webdriver.Chrome(service=service, options=options)
         driver.set_page_load_timeout(60)  # Increased timeout for proxy
@@ -203,7 +183,7 @@ def citnow_fetch_video_as_file(url):
             'Connection': 'keep-alive',
         }
         
-        logger.info(f"Downloading video through Ford proxy...")
+        logger.info(f"Downloading video through  proxy...")
         response = session.get(video_url, headers=headers, stream=True, timeout=120)
         response.raise_for_status()
         
@@ -240,15 +220,15 @@ def citnow_fetch_video_as_file(url):
 system_instructions = """You are an advanced EU Service Video Analysis model. Your task is to analyze the provided video. Follow the instructions below:
 
                 1. **Conditions**: You must first verify below conditions before proceeding:
-                   - Identify if the video is **related to Ford cars**.
+                   - Identify if the video is **related to  cars**.
                    - Identify if the video contains **audio**.
                    - Identify the **car** present in the Video.
-                   - Identify if the car in the video is confirmed as a **Ford model**.
+                   - Identify if the car in the video is confirmed as a ** model**.
                    - Identify if the video is **clear enough** to analyze.
 
-                2. Even one condition **failed** (i.e., the vehicle is not a Ford or the video has no sound or the car is not confirmed as a Ford model, or the video is not clear), respond with the following output format:\n
+                2. Even one condition **failed** (i.e., the vehicle is not a  or the video has no sound or the car is not confirmed as a  model, or the video is not clear), respond with the following output format:\n
                    
-                3. Analysis Process: If all initial conditions are satisfied (i.e., the vehicle is a Ford, the video has sound, the car is confirmed to be a Ford model, and the video is clear):
+                3. Analysis Process: If all initial conditions are satisfied (i.e., the vehicle is a , the video has sound, the car is confirmed to be a  model, and the video is clear):
 
                        - Proceed with populating the following fields in the JSON format.
                        - Provide a summary and relevant evaluations as specified (e.g., license plate visibility, car on ramp, etc.).
@@ -297,7 +277,7 @@ system_instructions = """You are an advanced EU Service Video Analysis model. Yo
                                 [
                                 {
                                     "filename": "[name of the file]",
-                                    "car_type": "Non Ford",
+                                    "car_type": "Non ",
                                     "service_related_video": "",
                                     "sound_and_image": "",
                                     "show_license_plate": "",
@@ -331,7 +311,7 @@ system_instructions = """You are an advanced EU Service Video Analysis model. Yo
 
                 5. Output Constraints: Ensure every value is either a valid string or an empty string (null), and the response must always be in valid JSON format.
 
-                Important Note: If conditions are failed or passed then respond with provided respective formats only. mainly if conditions failed then respond with  particular format and strictly follow the conditions. The main condition you should follow is, the ford car should be visible. If it is not visible then you must treat it as a failed condition.\n 
+                Important Note: If conditions are failed or passed then respond with provided respective formats only. mainly if conditions failed then respond with  particular format and strictly follow the conditions. The main condition you should follow is, the  car should be visible. If it is not visible then you must treat it as a failed condition.\n 
                  """
 
 @app.post("/api/analyze-video")
@@ -373,7 +353,7 @@ async def analyze_video(
 # Add a test endpoint to verify proxy connectivity
 @app.get("/api/test-proxy")
 async def test_proxy():
-    """Test Ford proxy connectivity"""
+    """Test  proxy connectivity"""
     try:
         session = get_proxy_session()
         
@@ -404,7 +384,7 @@ async def test_proxy():
         
         return {
             "proxy_configured": True,
-            "proxy_server": "http://internet.ford.com:83",
+            "proxy_server": "http://internet..com:83",
             "test_results": results
         }
         
