@@ -199,3 +199,20 @@ This is the easiest way to run both services for local development.
 * **FastAPI** → Backend API layer
 * **Node.js/React (Vite)** → Frontend
 * **Docker** → Containerization
+
+Here’s a concise and professional way to present it in your README:
+
+---
+
+### 📽️ Implementation Demo Video
+
+Due to file size limitations, only a partial demo video is included here.
+For the complete implementation walkthrough, please access the full video via Google Drive:
+
+👉 [Watch Full Demo Video](https://drive.google.com/file/d/12LCVv_IxvgOTxLbhzqeyU4zHQV7AE4fg/view?usp=sharing)
+
+---
+
+https://github.com/user-attachments/assets/1f97200a-ce15-4b88-b035-789482fb849d
+
+
