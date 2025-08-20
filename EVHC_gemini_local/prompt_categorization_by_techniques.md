@@ -46,7 +46,7 @@ If **all** conditions are met... then populate the following fields:
 Classify as either `'diagnostic'` or `'Evhc'` based on the following criteria:
 
 ### Evhc (Electronic Vehicle Health Check):
-- If the transcript contains... `'Ford Video Check'`, `'digital Vehicle Health Check'`
+- If the transcript contains... `'Tesla Video Check'`, `'digital Vehicle Health Check'`
 
 ### Diagnostic:
 - If the transcript contains... `'Diagnostic'`, `'Follow Up'`
