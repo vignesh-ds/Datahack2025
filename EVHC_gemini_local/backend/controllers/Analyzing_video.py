@@ -21,34 +21,6 @@ table_id = os.environ.get("BIGQUERY_TABLE_ID")
 bucket_folder = os.environ.get("BUCKET_FOLDER")
 car = os.environ.get("CAR")
 
-# Setup Ford proxy configuration
-def setup_ford_proxy():
-    """Setup Ford corporate proxy settings for Google Cloud services - ONLY for development"""
-    if os.getenv("ENVIRONMENT") == "production":
-        logging.info("Production environment - skipping proxy configuration in Analyzing_video")
-        return
-    
-    proxy_settings = {
-        'http_proxy': "http://internet.ford.com:83",
-        'https_proxy': "http://internet.ford.com:83",
-        'HTTP_PROXY': "http://internet.ford.com:83",
-        'HTTPS_PROXY': "http://internet.ford.com:83",
-        'NO_PROXY': ".ford.com,localhost,127.0.0.1,19.*,.googleapis.com,.google.com,metadata.google.internal,169.254.169.254",
-        'no_proxy': ".ford.com,localhost,127.0.0.1,19.*,.googleapis.com,.google.com,metadata.google.internal,169.254.169.254"
-    }
-    
-    for key, value in proxy_settings.items():
-        os.environ[key] = value
-    
-    # Set Google Cloud specific environment variables
-    os.environ['GOOGLE_CLOUD_DISABLE_GRPC'] = 'true'  # Force HTTP instead of gRPC
-    os.environ['GRPC_DNS_RESOLVER'] = 'native'
-    
-    logging.info("Ford proxy settings configured for Google Cloud services in development")
-
-# Setup proxy at module load
-setup_ford_proxy()
-
 # Disable SSL warnings for corporate proxy (if needed)
 # urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -69,10 +41,7 @@ def get_storage_client():
     """Get or create storage client with proper error handling"""
     global _storage_client
     if _storage_client is None:
-        try:
-            # Ensure proxy is set up
-            setup_ford_proxy()
-            
+        try:            
             # Check for explicit credentials
             credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
             if credentials_path and os.path.exists(credentials_path):
@@ -94,8 +63,6 @@ def get_bigquery_client():
     global _bigquery_client
     if _bigquery_client is None:
         try:
-            # Ensure proxy is set up
-            setup_ford_proxy()
             
             # Check for explicit credentials
             credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
@@ -115,14 +82,8 @@ def get_bigquery_client():
     return _bigquery_client
 
 def get_proxy_session():
-    """Create a requests session with Ford proxy configuration"""
+    """Create a requests session"""
     session = requests.Session()
-    
-    # Configure proxy for the session
-    proxies = {
-        'http': 'http://internet.ford.com:83',
-        'https': 'http://internet.ford.com:83'
-    }
     
     session.proxies.update(proxies)
     
@@ -145,7 +106,7 @@ def get_proxy_session():
     return session
 
 def download_video_from_url(video_url):
-    """Download video from URL using Ford proxy and return a temporary file"""
+    """Download video from URL and return a temporary file"""
     try:
         logger.info(f"Downloading video from URL: {video_url}")
         
